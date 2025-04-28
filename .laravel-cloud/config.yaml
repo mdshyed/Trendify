@@ -1,0 +1,49 @@
+name: trendify
+type: php:8.2
+
+build:
+  flavor: none
+  commands:
+    - composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+    - php artisan key:generate --no-interaction --force
+    - php artisan config:clear
+    - php artisan cache:clear
+    - php artisan view:clear
+    - php artisan route:clear
+    - php artisan config:cache
+    - php artisan route:cache
+    - php artisan view:cache
+
+deploy:
+  commands:
+    - php artisan migrate --force --no-interaction
+    - php artisan storage:link
+    - php artisan optimize:clear
+    - php artisan optimize
+
+mounts:
+  /storage: shared
+  /bootstrap/cache: shared
+
+web:
+  locations:
+    /:
+      root: public
+      passthru: /index.php
+      index:
+        - index.php
+      try_files:
+        - $uri
+        - $uri/
+        - /index.php?$query_string
+      expires: 1h
+      headers:
+        Cache-Control: "public, max-age=3600"
+        X-Frame-Options: "SAMEORIGIN"
+        X-Content-Type-Options: "nosniff"
+        X-XSS-Protection: "1; mode=block"
+        Referrer-Policy: "strict-origin-when-cross-origin"
+
+crons:
+  - spec: '*/15 * * * *'
+    cmd: 'php artisan schedule:run' 
