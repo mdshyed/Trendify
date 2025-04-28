@@ -51,11 +51,12 @@ crons:
 
 environment:
   variables:
-    APP_ENV: production
-    APP_DEBUG: false
-    LOG_CHANNEL: stack
-    LOG_LEVEL: debug
-    DB_CONNECTION: mysql
-    CACHE_DRIVER: redis
-    SESSION_DRIVER: redis
-    QUEUE_CONNECTION: redis 
+    APP_KEY: "base64:TGG244w3cR+gSzj+V6AlAfBNdQdC1+QzSPu2Hee3iTk="
+    APP_NAME: "trendify"
+    APP_ENV: "production"
+    APP_DEBUG: "false"
+    APP_URL: "https://trendify-master-jaozqq.laravel.cloud"
+    LOG_CHANNEL: "laravel-cloud-socket"
+    LOG_STDERR_FORMATTER: "Monolog\Formatter\JsonFormatter"
+    SESSION_DRIVER: "cookie"
+    VITE_APP_NAME: "${APP_NAME}" 
