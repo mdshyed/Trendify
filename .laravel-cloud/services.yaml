@@ -1,6 +1,12 @@
 mysql:
   type: mysql:10.4
   disk: 1024
+  configuration:
+    max_connections: 100
+    max_allowed_packet: 16M
 
 redis:
-  type: redis:6.0 
+  type: redis:6.0
+  configuration:
+    maxmemory: 256mb
+    maxmemory-policy: allkeys-lru 
